@@ -1,7 +1,7 @@
 {
     "name": "@ridetracker/authclient",
     "description": "A TypeScript package to provide a low-level API client for service authentications.",
-    "version": "0.9.2",
+    "version": "0.9.3",
     "main": "src/index.ts",
     "devDependencies": {
         "typescript": "^5.0.4"
