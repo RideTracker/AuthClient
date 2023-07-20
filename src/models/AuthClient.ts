@@ -1,4 +1,5 @@
 import { AuthClientToken } from "./AuthClientToken";
+import { Fetcher } from "./Fetcher";
 import { RequestMethod } from "./RequestMethod";
 
 export class AuthClient {
@@ -7,11 +8,16 @@ export class AuthClient {
     host: string;
     token?: AuthClientToken;
 
-    constructor(userAgent: string, host: string, token?: AuthClientToken) {
+    fetcher?: Fetcher;
+
+    constructor(userAgent: string, host: string, token?: AuthClientToken, fetcher?: Fetcher) {
         this.userAgent = userAgent;
 
         this.host = host;
         this.token = token;
+
+        if(fetcher)
+            this.fetcher = fetcher;
     };
 
     static async request(client: AuthClient, method: RequestMethod, url: URL, initialHeaders?: Record<string, string>, body?: BodyInit | undefined): Promise<any> {
@@ -29,7 +35,7 @@ export class AuthClient {
         if(body)
             headers["Content-Type"] = "application/json";
 
-        return fetch(url.toString(), {
+        return (client.fetcher ?? fetch)(url.toString(), {
             method,
             headers,
             body
