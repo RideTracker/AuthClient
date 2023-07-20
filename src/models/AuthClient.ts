@@ -1,20 +1,20 @@
-import { ClientToken } from "./ClientToken";
+import { AuthClientToken } from "./AuthClientToken";
 import { RequestMethod } from "./RequestMethod";
 
-export default class Client {
+export class AuthClient {
     userAgent: string;
 
     host: string;
-    token?: ClientToken;
+    token?: AuthClientToken;
 
-    constructor(userAgent: string, host: string, token?: ClientToken) {
+    constructor(userAgent: string, host: string, token?: AuthClientToken) {
         this.userAgent = userAgent;
 
         this.host = host;
         this.token = token;
     };
 
-    static async request(client: Client, method: RequestMethod, url: URL, initialHeaders?: Record<string, string>, body?: BodyInit | undefined): Promise<any> {
+    static async request(client: AuthClient, method: RequestMethod, url: URL, initialHeaders?: Record<string, string>, body?: BodyInit | undefined): Promise<any> {
         const headers: Record<string, string> = {
             ...initialHeaders
         };

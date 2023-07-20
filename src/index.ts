@@ -1,5 +1,5 @@
-export * from "./controllers/clients/createClient";
+export * from "./controllers/clients/createAuthClient";
 
-export * from "./models/Client";
-export * from "./models/ClientToken";
+export * from "./models/AuthClient";
+export * from "./models/AuthClientToken";
 export * from "./models/RequestMethod";
