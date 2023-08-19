@@ -1,12 +1,15 @@
 {
     "name": "@ridetracker/authclient",
     "description": "A TypeScript package to provide a low-level API client for service authentications.",
-    "version": "0.9.4",
+    "version": "0.9.5",
     "main": "dist/index.js",
     "devDependencies": {
         "typescript": "^5.0.4"
     },
     "publishConfig": {
         "registry": "https://npm.pkg.github.com"
+    },
+    "scripts": {
+        "build": "npx tsc"
     }
 }

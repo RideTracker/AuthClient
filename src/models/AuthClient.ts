@@ -1,3 +1,4 @@
+import { AuthClientOptions } from "./AuthClientOptions";
 import { AuthClientToken } from "./AuthClientToken";
 import { Fetcher } from "./Fetcher";
 import { RequestMethod } from "./RequestMethod";
@@ -8,16 +9,15 @@ export class AuthClient {
     host: string;
     token?: AuthClientToken;
 
-    fetcher?: Fetcher;
+    options: AuthClientOptions;
 
-    constructor(userAgent: string, host: string, token?: AuthClientToken, fetcher?: Fetcher) {
+    constructor(userAgent: string, host: string, token?: AuthClientToken, options: AuthClientOptions = {}) {
         this.userAgent = userAgent;
 
         this.host = host;
         this.token = token;
 
-        if(fetcher)
-            this.fetcher = fetcher;
+        this.options = options;
     };
 
     static async request(client: AuthClient, method: RequestMethod, url: URL, initialHeaders?: Record<string, string>, body?: BodyInit | undefined): Promise<any> {
@@ -25,7 +25,10 @@ export class AuthClient {
             ...initialHeaders
         };
 
-        headers["User-Agent"] = client.userAgent;
+        if(client.options.useCustomUserAgentHeader)
+           headers["X-User-Agent"] = client.userAgent;
+        else
+            headers["User-Agent"] = client.userAgent;
 
         if(client.token) {
             if(client.token.type === "Basic")
@@ -35,7 +38,7 @@ export class AuthClient {
         if(body)
             headers["Content-Type"] = "application/json";
 
-        return (client.fetcher ?? fetch)(url.toString(), {
+        return fetch(url.toString(), {
             method,
             headers,
             body
